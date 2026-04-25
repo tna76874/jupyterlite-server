@@ -1,0 +1,14 @@
+services:
+  jupyterlite:
+    image: ghcr.io/tna76874/jupyterlite-server:${JUPYTERLITE_VERSION}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PYTHON_VERSION: ${PYTHON_VERSION}
+        NGINX_VERSION: ${NGINX_VERSION}
+        JUPYTERLITE_VERSION: ${JUPYTERLITE_VERSION}
+    container_name: jupyterlite_server
+    ports:
+      - "${PORT:-8080}:8080"
+    restart: always
