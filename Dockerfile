@@ -12,6 +12,9 @@ RUN pip install --no-cache-dir --upgrade pip
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create the content directory just in case
+RUN mkdir -p ./content
+
 # Copy local notebooks/content
 COPY ./content ./content
 
