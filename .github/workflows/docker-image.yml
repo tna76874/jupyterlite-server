@@ -22,6 +22,9 @@ on:
       - 'requirements.txt'
       - 'Dockerfile'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-image:
     runs-on: ubuntu-latest
