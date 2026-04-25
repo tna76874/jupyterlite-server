@@ -40,6 +40,9 @@ echo "Python Version:  $PYTHON_VERSION"
 echo "Nginx Version:   $NGINX_VERSION"
 echo "-------------------------------------------------------"
 
+# ensure content folder
+mkdir -p ./content
+
 # --- 3. Docker Build ---
 # Pass the build arguments defined in .env to the Dockerfile
 docker build \
