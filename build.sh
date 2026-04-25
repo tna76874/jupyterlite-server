@@ -3,12 +3,8 @@ set -e
 
 # --- 1. Load Configuration ---
 if [ -f .env ]; then
-  # Read .env line by line, ignore comments and empty lines, then export
-  while IFS= read -r line || [ -n "$line" ]; do
-    [[ "$line" =~ ^#.*$ ]] && continue # Skip comments
-    [[ -z "$line" ]] && continue      # Skip empty lines
-    export "$line"
-  done < .env
+  # Remove comments, remove \r, and export
+  export $(grep -v '^#' .env | tr -d '\r' | xargs)
 else
   echo "Error: .env file not found!"
   exit 1
@@ -29,8 +25,12 @@ fi
 IMAGE_NAME="ghcr.io/${GITHUB_REPOSITORY}"
 COMMIT_HASH=$(git rev-parse --short HEAD || echo "local")
 
-# Sanitize Python version for tagging (replace colons with dashes)
-CLEAN_PYTHON=$(echo "$PYTHON_VERSION" | tr ':' '-')
+# Remove everything except alphanumeric, dots, underscores, and dashes
+CLEAN_JUPYTER=$(echo "$JUPYTERLITE_VERSION" | tr -cd '[:alnum:]._-')
+CLEAN_PYTHON=$(echo "$PYTHON_VERSION" | tr ':/' '-' | tr -cd '[:alnum:]._-')
+
+VERSION_TAG="v${CLEAN_JUPYTER}-python${CLEAN_PYTHON}"
+LITE_TAG="lite-${CLEAN_JUPYTER}"
 
 echo "-------------------------------------------------------"
 echo "Configuration Summary:"

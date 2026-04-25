@@ -1,6 +1,6 @@
 # Global ARG declarations
-ARG PYTHON_VERSION
-ARG NGINX_VERSION
+ARG PYTHON_VERSION=3.11-slim
+ARG NGINX_VERSION=1.30.0-alpine-slim
 
 # --- STAGE 1: Build Stage ---
 FROM python:${PYTHON_VERSION} AS builder
